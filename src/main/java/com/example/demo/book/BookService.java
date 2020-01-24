@@ -10,5 +10,4 @@ public class BookService {
     public BookService(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
-
 }
