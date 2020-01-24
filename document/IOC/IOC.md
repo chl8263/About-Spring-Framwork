@@ -19,5 +19,5 @@ IOC : Inversion of control, Rather than creating and using dependent objects dir
             - Prototype
         - Life cycle interface
         
-![base](document/IOC/container.PNG)
+![base](/document/IOC/container.PNG)
 
