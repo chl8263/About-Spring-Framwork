@@ -32,6 +32,22 @@ Configure using XML file and annotation.
     />
 </beans>
 ~~~
+
+In application.xml, when property that under the beans tag
+~~~xml
+<property name="bookRepository" ref="bookRepository"/>
+~~~
+~~~JAVA
+@Service
+public class BookService {
+
+    private BookRepository bookRepository;
+
+    public void setBookRepository(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
+    }
+}
+~~~
      
 - Bean
     - The object which manage from Spring IOC container
