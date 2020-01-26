@@ -59,7 +59,6 @@ public class BookService {
 ~~~
 
 ~~~java
-@SpringBootApplication
 public class Application {
 
     public static void main(String[] args) {
@@ -105,10 +104,12 @@ component-scan can scan path within created base-package.
 <context:component-scan base-package="com.example.demo"/>
 ~~~
 
+Write annotation in class for component-scan.
 
+For example, @component, @Controller, @Service, @Repository
 
 ~~~java
-@Component
+@Component // or @Service
 public class BookService {
 
     public BookRepository bookRepository;
@@ -117,4 +118,84 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 }
+
+@ Component // or @Repository
+public class BookRepository {
+}
 ~~~
+
+But they can't still dependency injection yet.
+
+Write @Autowired or @inject for dependency injection.
+~~~java
+@Service
+public class BookService {
+    @Autowired
+    public BookRepository bookRepository;
+
+    public void setBookRepository(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
+    }
+}
+~~~
+
+So result is like below code and same above one.
+~~~
+[Ljava.lang.String;@56193c7d
+true
+~~~
+
+Many developer want write configure using java code, so can write this way instead XML file like below.
+
+~~~java
+@Configuration
+public class ApplicationConfig {
+
+    @Bean
+    public BookService bookService(){
+        BookService bookService = new BookService();
+        bookService.setBookRepository(bookRepository());
+        return bookService;
+    }
+
+    @Bean
+    public BookRepository bookRepository(){
+        return new BookRepository();
+    }
+}
+~~~
+
+Also Can inject in method paremeter
+~~~java
+    @Bean
+    public BookService bookService(BookRepository bookRepository){ //Can inject in method paremeter
+        BookService bookService = new BookService();
+        bookService.setBookRepository(bookRepository);
+        return bookService;
+    }
+~~~
+
+Of course can use injection using @Autowired, then code like below.
+
+~~~java
+@Bean
+    public BookService bookService(){
+        return new BookService();
+    }
+
+    @Bean
+    public BookRepository bookRepository(){
+        return new BookRepository();
+    }
+~~~
+
+Also can use to way component-scan like this.
+
+~~~java
+@Configuration
+@ComponentScan(basePackageClasses = Application.class)
+public class ApplicationConfig {
+
+}
+~~~
+

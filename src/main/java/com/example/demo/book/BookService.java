@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class BookService {
 
     @Autowired
-    public BookRepository bookRepository;
+    private BookRepository bookRepository;
 
-    public void setBookRepository(BookRepository bookRepository){
-        this.bookRepository = bookRepository;
+    public BookRepository getBookRepository(){
+        return bookRepository;
     }
 }
