@@ -12,7 +12,16 @@ IOC : Inversion of control, Rather than creating and using dependent objects dir
 Make configuration file like the picture below.
 
 ![base](/document/IOC/container.PNG)
-
+     
+- Bean
+    - The object which manage from Spring IOC container
+    - Benefit
+        - Manage dependency
+        - Scope
+            - Singleton
+            - Prototype
+        - Life cycle interface
+        
 Configure using XML file and annotation.
 
 ~~~xml
@@ -33,7 +42,7 @@ Configure using XML file and annotation.
 </beans>
 ~~~
 
-In application.xml, when property that under the beans tag
+In application.xml, property that under the beans tag are taken from 'setBookRepository' in BookService
 ~~~xml
 <property name="bookRepository" ref="bookRepository"/>
 ~~~
@@ -48,13 +57,64 @@ public class BookService {
     }
 }
 ~~~
-     
-- Bean
-    - The object which manage from Spring IOC container
-    - Benefit
-        - Manage dependency
-        - Scope
-            - Singleton
-            - Prototype
-        - Life cycle interface
-        
+
+~~~java
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+
+        ApplicationContext context = new ClassPathXmlApplicationContext("application.xml"); //Get bean configure xml file
+        String [] beanNames = context.getBeanDefinitionNames(); //Get bean names
+        System.out.println(beanNames);  
+
+        BookService bookService = (BookService) context.getBean("bookService"); //Get BookService bean in IOC container
+
+        System.out.println(bookService.bookRepository != null); //Check BookRepository in BookService and working IOC
+    }
+}
+~~~
+
+The result is like below code.
+
+~~~
+[Ljava.lang.String;@2db7a79b
+true
+
+Process finished with exit code 0
+~~~
+
+But this way how to manage bean is inconvenient.
+
+So Component-scan has appeared to solve the above method inconvenient.
+
+~~~
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.example.demo"/>
+</beans>
+~~~
+
+component-scan can scan path within created base-package.
+
+~~~
+<context:component-scan base-package="com.example.demo"/>
+~~~
+
+
+
+~~~java
+@Component
+public class BookService {
+
+    public BookRepository bookRepository;
+
+    public void setBookRepository(BookRepository bookRepository){
+        this.bookRepository = bookRepository;
+    }
+}
+~~~
