@@ -25,5 +25,7 @@ public class ProRunner implements ApplicationRunner {
         System.out.println(Arrays.toString(environment.getDefaultProfiles()));
 
         System.out.println(proRepository.printState());
+
+        System.out.println(environment.getProperty("app.about"));
     }
 }
