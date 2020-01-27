@@ -12,17 +12,18 @@ import java.util.List;
 public class BookService {
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookRepository ewanBookRepository;
 
     @PostConstruct
     public void setUp(){
-        System.out.println(bookRepository.getClass());
+        System.out.println(ewanBookRepository.getClass());
     }
 
 //    @Autowired
 //    List<BookRepository> bookRepositoryList;
-
-//    public void printBookRepository(){
+//
+//    @PostConstruct
+//    public void setUp(){
 //        bookRepositoryList.forEach(x ->
 //                System.out.println(x.getClass())
 //        );

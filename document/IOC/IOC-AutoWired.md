@@ -8,7 +8,7 @@ IOC : Inversion of control, Rather than creating and using dependent objects dir
     1. @Primary
     2. List
     3. @Qualifier
-
+    4. Write class name
 
 ##### 1. @Primary
 
@@ -65,3 +65,81 @@ Exception in thread "task-2" org.springframework.beans.factory.BeanCreationNotAl
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at java.lang.Thread.run(Thread.java:748)
 ~~~
+
+So if want enroll which class priority first, write @Primary like below code.
+
+~~~java
+@Repository @Primary
+public class EwanBookRepository implements BookRepository {
+}
+~~~
+
+The result is success and can see class name that injected in BookService.
+
+~~~
+class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$ab287e3a
+~~~
+
+##### 2. List
+
+If want get all class that type BookRepository, can inject as List. 
+~~~java
+    @Autowired
+    List<BookRepository> bookRepositoryList;
+
+    @PostConstruct
+    public void setUp(){
+        bookRepositoryList.forEach(x ->
+                System.out.println(x.getClass())
+        );
+    }
+~~~
+
+The result like below.
+
+~~~
+class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$289e3a54
+class com.example.demo.book.MyBookRepository$$EnhancerBySpringCGLIB$$a27f925b
+~~~
+
+##### 3. Qualifier
+
+Also can use class name in @Qualifier, but be careful first spelling should small letter even though class name is upper case.
+
+~~~java
+@Autowired @Qualifier("ewanBookRepository")
+    private BookRepository bookRepository;
+
+    @PostConstruct
+    public void setUp(){
+        System.out.println(bookRepository.getClass());
+    }
+~~~
+
+The result like below.
+
+~~~
+class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$289e3a54
+~~~
+
+##### 4. Write class name
+
+Can write class name directly, spring can inject that class.
+
+~~~java
+@Autowired
+    private BookRepository ewanBookRepository;
+
+    @PostConstruct
+    public void setUp(){
+        System.out.println(ewanBookRepository.getClass());
+    }
+~~~
+
+The result like below.
+
+~~~
+class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$fc17c0d9
+~~~
+
+##### The Recommended way is @Primary.
