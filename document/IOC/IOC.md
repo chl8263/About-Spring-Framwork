@@ -1,4 +1,4 @@
-# Spring IOC
+# IOC Container
 
 ### What is Spring IOC?
 

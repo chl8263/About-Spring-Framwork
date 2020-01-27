@@ -1,4 +1,4 @@
-package com.example.demo.scope;
+package com.example.demo.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-//@Component
-public class ScopeRunner implements ApplicationRunner {
+@Component
+public class ProRunner implements ApplicationRunner {
+
+    @Autowired
+    ProRepository proRepository;
 
     @Autowired
     ApplicationContext ctx;
@@ -20,5 +23,7 @@ public class ScopeRunner implements ApplicationRunner {
         Environment environment = ctx.getEnvironment();
         System.out.println(Arrays.toString(environment.getActiveProfiles()));
         System.out.println(Arrays.toString(environment.getDefaultProfiles()));
+
+        System.out.println(proRepository.printState());
     }
 }
