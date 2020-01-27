@@ -1,5 +1,7 @@
 # Spring-exe
 This repository is for exercise about spring framework
 
-
-[1. Spring IOC](https://github.com/chl8263/Spring-exe/blob/master/document/IOC/IOC.md)
+#### Spring IOC
+ - [1.IOC](https://github.com/chl8263/Spring-exe/blob/master/document/IOC/IOC.md)
+ - [2.Autowired](https://github.com/chl8263/Spring-exe/blob/master/document/IOC/IOC-AutoWired.md)
+    
