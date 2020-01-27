@@ -199,3 +199,31 @@ public class ApplicationConfig {
 }
 ~~~
 
+Now see the main method.
+
+~~~java
+public class Application {
+
+    public static void main(String[] args) {
+
+        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        String [] beanNames = context.getBeanDefinitionNames();
+        System.out.println(beanNames);
+
+        BookService bookService = (BookService) context.getBean("bookService");
+
+        System.out.println(bookService.getBookRepository() != null);
+    }
+}
+~~~
+
+Spring boot can create context if using @SpringBootApplication.
+
+~~~java
+@SpringBootApplication
+public class Application {
+
+    public static void main(String[] args) {
+    }
+}
+~~~
