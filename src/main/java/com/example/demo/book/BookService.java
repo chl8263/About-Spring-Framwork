@@ -16,7 +16,7 @@ public class BookService {
 
     @PostConstruct
     public void setUp(){
-        System.out.println(ewanBookRepository.getClass());
+        //System.out.println(ewanBookRepository.getClass());
     }
 
 //    @Autowired
