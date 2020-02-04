@@ -10,7 +10,7 @@ IOC : Inversion of control, Rather than creating and using dependent objects dir
     3. @Qualifier
     4. Write class name
 
-#### 1. @Primary
+### 1. @Primary
 
 As BookService like below code. There are repository which extends BookRepository.
 
@@ -80,7 +80,7 @@ The result is success and can see class name that injected in BookService.
 class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$ab287e3a
 ~~~
 
-#### 2. List
+### 2. List
 
 If want get all class that type BookRepository, can inject as List. 
 ~~~java
@@ -102,7 +102,7 @@ class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$289e3a54
 class com.example.demo.book.MyBookRepository$$EnhancerBySpringCGLIB$$a27f925b
 ~~~
 
-#### 3. Qualifier
+### 3. Qualifier
 
 Also can use class name in @Qualifier, but be careful first spelling should small letter even though class name is upper case.
 
@@ -122,7 +122,7 @@ The result like below.
 class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$289e3a54
 ~~~
 
-#### 4. Write class name
+### 4. Write class name
 
 Can write class name directly, spring can inject that class.
 
