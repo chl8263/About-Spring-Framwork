@@ -11,7 +11,7 @@
         - Websocket
         - ....
 
-##### 1. Singleton
+### 1. Singleton
 
 When make Bean in spring, should write @Component or @Controller or @Service and so on and default scope type is Singleton. 
 ~~~java
@@ -21,7 +21,7 @@ public class Single {
 }
 ~~~
 
-##### 2. Prototype
+### 2. Prototype
 
 If want scope type prototype, should write prototype in @Scope like below.
 ~~~java
@@ -31,7 +31,7 @@ public class Proto {
 }
 ~~~
 
-##### Check 
+### Check 
 
 Let's check scope example about above code.
 
