@@ -142,4 +142,4 @@ The result like below.
 class com.example.demo.book.EwanBookRepository$$EnhancerBySpringCGLIB$$fc17c0d9
 ~~~
 
-### The Recommended way is @Primary.
+## The Recommended way is @Primary.
