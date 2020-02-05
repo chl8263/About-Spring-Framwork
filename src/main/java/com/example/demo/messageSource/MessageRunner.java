@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
-@Component
+//@Component
 public class MessageRunner implements ApplicationRunner {
 
     @Autowired
