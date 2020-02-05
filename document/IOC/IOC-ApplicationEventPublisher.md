@@ -1,168 +1,223 @@
-# IOC Container - Scope
+# IOC Container - ApplicationEventPublisher
 
-### What is IOC Scope?
+### What is ApplicationEventPublisher?
 
-- There are two type scope in IOC.
-    1. Singleton
-    2. Prototype
-        - Request
-        - Session
-        - Websocket
-        - ....
+- As implementation of Observer pattern, provide interface for event programming.
 
-##### 1. Singleton
+### 1. Make Event
 
-When make Bean in spring, should write @Component or @Controller or @Service and so on and default scope type is Singleton. 
-~~~java
-@Component
-public class Single {
+Event Publisher consist of occur part and receive part and Object to be used for delivery.
 
-}
-~~~
+First, occur part.
 
-##### 2. Prototype
+To occur EventPublisher, should use ApplicationEventPublisher object, ApplicationContext has ApplicationEventPublisher object already. 
 
-If want scope type prototype, should write prototype in @Scope like below.
-~~~java
-@Component @Scope(value = "prototype")
-public class Proto {
-    
-}
-~~~
-
-##### Check 
-
-Let's check scope example about above code.
-
-First, configure Single class like this.
+And use publichEvent method with Object to be used for delivery inside.
 
 ~~~java
 @Component
-public class Single {
+public class EventRunner implements ApplicationRunner {
 
     @Autowired
-    private Proto proto;
+    ApplicationEventPublisher eventPublisher;
 
-    public Proto getProto() {
-        return proto;
-    }
-}
-~~~
-
-Second, configure Prototype class like this.
-
-~~~java
-@Component @Scope(value = "prototype")
-public class Proto {
-
-    @Autowired
-    Single single;
-}
-~~~
-
-As example above code, Single class type is Singleton and Proto class type is prototype.
-
-Execute code for test like below. 
-~~~java
-@Component
-public class ScopeRunner implements ApplicationRunner {
-
-    @Autowired
-    ApplicationContext ctx;
-    
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        System.out.println("proto");
-
-        System.out.println(ctx.getBean(Proto.class));
-        System.out.println(ctx.getBean(Proto.class));
-        System.out.println(ctx.getBean(Proto.class));
-
-        System.out.println("single");
-
-        System.out.println(ctx.getBean(Single.class));
-        System.out.println(ctx.getBean(Single.class));
-        System.out.println(ctx.getBean(Single.class));
+        eventPublisher.publishEvent(new MyEvent(this, 100));
     }
 }
 ~~~
 
-As like result, every Singleton class hashcode are same and every prototype code are different.  
+Second, The Object to be used for delivery like below code.
 
-~~~
-proto
-com.example.demo.scope.Proto@71466383
-com.example.demo.scope.Proto@46d63dbb
-com.example.demo.scope.Proto@4088741b
-single
-com.example.demo.scope.Single@178270b2
-com.example.demo.scope.Single@178270b2
-com.example.demo.scope.Single@178270b2
-~~~
-
-How about Proto class in Single class?
-
-Let's test.
+In constructor, meaning of source is for can tracking what object occurred.
 
 ~~~java
-@Component
-public class Single {
+public class MyEvent {
 
-    @Autowired
-    private Proto proto;
+    private int data;
 
-    public Proto getProto() {
-        return proto;
+    public MyEvent(Object source, int data){
+        this.data = data;
+    }
+
+    public int getData(){
+        return data;
     }
 }
 ~~~
 
+Third, receive part like below code.
+
+Need to write __@Component__ for register bean and a __@EventListener__ on the method want to receive.
 ~~~java
 @Component
-public class ScopeRunner implements ApplicationRunner {
+public class MyEventHandler {
+
+    @EventListener
+    public void onApplicationEvent(MyEvent myEvent) {
+        System.out.println("Event occurred -> " + myEvent.getData());
+    }
+}
+~~~
+
+Then the result like below.
+
+~~~
+Event occurred -> 100
+~~~
+
+
+
+### 2. Handle event
+
+If there are over 2 receive handler, what is order?
+
+Create another handler for test.
+~~~java
+@Component
+public class AnotherHandler {
+
+    @EventListener
+    public void handle(MyEvent myEvent){
+        System.out.println("Another -> "+myEvent.getData());
+    }
+}
+~~~
+
+Then result is like below.
+
+~~~
+Event occurred -> 100
+Another -> 100
+~~~
+
+If want to give order at each receiver, can write '@Order(Ordered.HIGHEST_PRECEDENCE)'.
+
+~~~java
+@Component
+public class AnotherHandler {
+
+    @EventListener
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public void handle(MyEvent myEvent){
+        System.out.println("Another -> "+myEvent.getData());
+    }
+}
+~~~
+
+Then the result like below.
+
+~~~
+Another -> 100
+Event occurred -> 100
+~~~
+
+When use to thread, need write __@Async__.
+
+~~~java
+@Component
+public class AnotherHandler {
+
+    @EventListener
+    @Async
+    public void handle(MyEvent myEvent){
+        System.out.println("Current Thread -> " + Thread.currentThread().toString());
+        System.out.println("Another -> "+myEvent.getData());
+    }
+}
+~~~
+
+And need write __@EnableAsync__ in Application.java 
+
+~~~java
+@SpringBootApplication
+@EnableAsync // Enable async
+public class Application {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+~~~
+
+Events provided by spring.
+
+- ContextRefreshedEvent : Occurs when create or refresh ApplicationContext.
+
+- ContextStartedEvent : Occurs when receive signal to start() ApplicationContext.
+
+- ContextStoppedEvent : Occurs when receive signal to stop() ApplicationContext.
+
+- ContextClosedEvent : Occurs when remove singleton bean to close() ApplicationContext.
+ 
+- RequestHandledEvent : Occurs when request HTTP.
+
+Code structure like below.
+
+~~~java
+@Component
+public class EventRunner implements ApplicationRunner {
 
     @Autowired
-    ApplicationContext ctx;
+    ApplicationEventPublisher eventPublisher;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        eventPublisher.publishEvent(new MyEvent(this, 100));
 
-        System.out.println("Proto by single");
-        System.out.println(ctx.getBean(Single.class).getProto());
-        System.out.println(ctx.getBean(Single.class).getProto());
-        System.out.println(ctx.getBean(Single.class).getProto());
+        ((ConfigurableApplicationContext)eventPublisher).start();
+        ((ConfigurableApplicationContext)eventPublisher).stop();
+        ((ConfigurableApplicationContext)eventPublisher).close();
     }
 }
 ~~~
 
-The result is like this.
-~~~
-Proto by single
-com.example.demo.scope.Proto@38a1a26
-com.example.demo.scope.Proto@38a1a26
-com.example.demo.scope.Proto@38a1a26
-~~~
-
-Why every Prototype class's hashcode are same even though configuration prototype?
-
-That reason is that the Single class configuration is a Singleton.
-
-When Bean Created, Single class already assigned prototype.
-
-If want Proto class working like prototype in Singleton Bean, should write 'proxyMode' like below.
-
 ~~~java
-@Component @Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Proto {
+@Component
+public class AnotherHandler {
 
-    @Autowired
-    Single single;
+    @EventListener
+    @Async
+    public void handle(MyEvent myEvent){
+        System.out.println("Current Thread -> " + Thread.currentThread().toString());
+        System.out.println("Another -> "+myEvent.getData());
+    }
+
+    @EventListener
+    public void handle(ContextRefreshedEvent event){
+        System.out.println("Refresh");
+    }
+
+    @EventListener
+    public void handle(ContextStartedEvent event){
+        System.out.println("Start");
+    }
+
+    @EventListener
+    public void handle(ContextStoppedEvent event){
+        System.out.println("Stop");
+    }
+
+    @EventListener
+    public void handle(ContextClosedEvent event){
+        System.out.println("Close");
+    }
 }
 ~~~
 
-The expected result was output.
+
+The result like this.
 ~~~
-Proto by single
-com.example.demo.scope.Proto@31ff6309
-com.example.demo.scope.Proto@204e90f7
-com.example.demo.scope.Proto@20a05b32
+Refresh
+2020-02-05 00:07:51.660  INFO 2848 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2020-02-05 00:07:51.663  INFO 2848 --- [           main] com.example.demo.Application             : Started Application in 2.354 seconds (JVM running for 3.252)
+class com.example.demo.eventPublisher.EventRunner
+Current Thread -> Thread[main,5,main]
+Event occurred -> 100
+Current Thread -> Thread[task-2,5,main]
+Another -> 100
+Start
+Stop
+Close
 ~~~

@@ -17,10 +17,10 @@ public class MyEventHandler {//implements ApplicationListener<MyEvent> {
         System.out.println("Event occurred -> " + myEvent.getData());
     }
 
-    @EventListener//@Override
-    @Async
-    public void handle(MyEvent myEvent) {
-        System.out.println("Current Thread -> " + Thread.currentThread().toString());
-        System.out.println("Event occurred -> " + myEvent.getData());
-    }
+//    @EventListener//@Override
+//    @Async
+//    public void handle(MyEvent myEvent) {
+//        System.out.println("Current Thread -> " + Thread.currentThread().toString());
+//        System.out.println("Event occurred -> " + myEvent.getData());
+//    }
 }

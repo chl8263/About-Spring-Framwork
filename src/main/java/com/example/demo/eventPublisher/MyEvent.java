@@ -11,10 +11,10 @@ public class MyEvent {//extends ApplicationEvent {
     public MyEvent(Object source, int data){
         //super(source);
         this.data = data;
+        System.out.println(source.getClass());
     }
 
     public int getData(){
         return data;
     }
-
 }
