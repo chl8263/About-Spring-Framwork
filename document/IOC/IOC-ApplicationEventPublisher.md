@@ -2,7 +2,6 @@
 
 ### What is IOC Scope?
 
-
 - There are two type scope in IOC.
     1. Singleton
     2. Prototype
