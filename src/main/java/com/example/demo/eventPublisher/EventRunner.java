@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class EventRunner implements ApplicationRunner {
 
     @Autowired
