@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 
-@Component
+//@Component
 public class LoaderRunner implements ApplicationRunner {
 
     @Autowired
