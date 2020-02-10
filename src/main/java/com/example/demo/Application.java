@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.book.BookService;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
@@ -20,6 +21,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
+
+        SpringApplication app = new SpringApplication(Application.class);
+        app.setWebApplicationType(WebApplicationType.NONE);
+        app.run(args);
+        //SpringApplication.run(Application.class, args);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SpelRunner implements ApplicationRunner {
 
     @Value("#{1 + 1}")
