@@ -1,5 +1,5 @@
-# Spring-exe
-This repository is for exercise about spring framework
+# About Spring Framwork
+This repository is for exercise about spring framework, can see detail document to click.
 
 #### Spring IOC
  - [IOC](https://github.com/chl8263/Spring-exe/blob/master/document/IOC/IOC.md)
