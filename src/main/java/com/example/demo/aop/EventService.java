@@ -1,4 +1,8 @@
 package com.example.demo.aop;
 
-public class EventService {
+public interface EventService {
+
+    void createEvent();
+
+    void publishEvent();
 }
