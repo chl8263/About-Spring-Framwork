@@ -9,6 +9,7 @@ public class Webconfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(new EventConverter.StringToEvetnConvetter());
+        //registry.addConverter(new EventConverter.StringToEvetnConvetter());
+        registry.addFormatter(new EventFormatter());
     }
 }

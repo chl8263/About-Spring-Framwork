@@ -113,3 +113,138 @@ When use PropertyEditorSupport for format data type, can use getAsText() and set
 
 However this way has some problem and too old. For example, not thread safe, can not register Bean, just can transform string to object or object to string.
 
+## Converter & Formatter
+Converter and Formatter appeared to replace PropertyEditor.
+
+The Converter is converter for type S to T and Thread-safe. Formatter is converter object to String and provide function to multinationalization.
+
+### Converter implementation
+
+Converter can implement two parameter Source and Target. Also Converter is Thread-safe unlike PropertyEditor, so can register it as a Spring bean.
+
+~~~java
+public class EventConverter {
+
+    public static class StringToEventConverter implements Converter<String, Event> {
+        @Override
+        public Event convert(String source){
+            return new Event(Integer.parseInt(source));
+        }
+    }
+
+    public static class EventToStringConverter implements Converter<Event, String>{
+        @Override
+        public String convert(Event source){
+            return source.getId().toString();
+        }
+    }
+}
+~~~
+
+Also need register at WebMvcConfigure if use above way Converter.
+
+~~~java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new EventConverter.StringToEventConverter());
+    }
+}
+~~~
+
+### Formatter implementation
+
+Formatter receive just one parameter because it just transfer object to string or string to object.
+
+~~~java
+public class EventFormatter implements Formatter<Event> {
+
+    @Override
+    public Event parse(String text, Locale locale) throws ParseException {
+        return new Event(Integer.parseInt(text));
+    }
+
+    @Override
+    public String print(Event object, Locale locale) {
+        return object.getId().toString();
+    }
+}
+~~~
+
+Register Formatter WebMvcConfigurer as like Converter.
+
+~~~java
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new EventFormatter());
+    }
+}
+~~~
+
+### Converstion Service
+
+When use Converter and Formatter, registered ConversionService through WebMvcConfigurer.
+
+Real convert at ConversionService and automatically inject as bean at Spring Boot.
+
+~~~java
+@Component
+public class AppRunner implements ApplicationRunner {
+
+    @Autowired
+    ConversionService conversionService;
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+    System.out.println(conversionService.getClass().toString());
+    }
+}
+~~~
+
+### WebConversionService
+
+WebConversionService which provide Spring boot inject Formatter and Converter automatically.w
+
+So, do not need to write WebMvcConfigurer like above code.
+
+~~~java
+@Component
+public class EventFormatter implements Formatter<Event> {
+
+    @Override
+    public Event parse(String text, Locale locale) throws ParseException {
+        return new Event(Integer.parseInt(text));
+    }
+
+    @Override
+    public String print(Event object, Locale locale) {
+        return object.getId().toString();
+    }
+}
+~~~
+
+~~~java
+public class EventConverter  {
+
+    @Component
+    public static class StringToEventConverter implements Converter<String, Event> {
+        @Override
+        public Event convert(String source){
+            return new Event(Integer.parseInt(source));
+        }
+    }
+
+    @Component
+    public static class EventToStringConverter implements Converter<Event, String>{
+        @Override
+        public String convert(Event source){
+            return source.getId().toString();
+        }
+    }
+}
+~~~

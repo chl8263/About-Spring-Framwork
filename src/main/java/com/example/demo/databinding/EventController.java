@@ -14,7 +14,7 @@ public class EventController {
 //        webDataBinder.registerCustomEditor(BindData.class, new EventEditor());
 //    }
 
-    @GetMapping("/event/{event}")
+    @GetMapping("/event/{bind}")
     public String getEvent(@PathVariable BindData bindData){
         System.out.println(bindData);
         return bindData.getId().toString();
