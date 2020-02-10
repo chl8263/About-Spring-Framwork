@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.web.format.WebConversionService;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class DataBindinRunner  implements ApplicationRunner {
 
     @Autowired
