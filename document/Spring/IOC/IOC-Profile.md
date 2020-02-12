@@ -49,7 +49,7 @@ public class TestConfiguration {
 
 Next, should write configuration in VM setting. 
 
-![base](/document/IOC/vmSetting.PNG)
+![base](/document/Spring/IOCing/IOC/vmSetting.PNG)
 
 
 Let's Execute code.

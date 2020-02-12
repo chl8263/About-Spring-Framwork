@@ -15,7 +15,7 @@ Property Priority
 
 Create properties file like below.
     
-![base](/document/IOC/property.PNG)
+![base](/document/Spring/IOCing/IOC/property.PNG)
 
 And write annotation '@PropertySource("classpath:/app.properties")'.
 ~~~java

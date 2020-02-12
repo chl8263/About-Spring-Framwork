@@ -11,7 +11,7 @@ IOC : Inversion of control, Rather than creating and using dependent objects dir
 
 Make configuration file like the picture below.
 
-![base](/document/IOC/container.PNG)
+![base](/document/Spring/IOCing/IOC/container.PNG)
      
 - Bean
     - The object which manage from Spring IOC container

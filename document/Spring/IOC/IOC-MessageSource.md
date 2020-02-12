@@ -9,7 +9,7 @@ If use Spring boot, can use without any setting.
 
 First of all, create file like below.
 
-![base](/document/IOC/MessageSource.PNG)
+![base](/document/Spring/IOCing/IOC/MessageSource.PNG)
 
 Then just use code like below.
 
