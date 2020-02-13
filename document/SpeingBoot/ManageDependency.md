@@ -112,3 +112,30 @@ If want custom own dependency configure without `<parent>` tag, can use `<depend
     </dependencies>
 </dependencyManagement>
 ~~~
+
+
+If want add other dependency, just write dependency code in `<dependencies>` at pom.xml.
+
+~~~
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.M1</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    
+       .........
+       
+       
+    <dependencies>
+        <!-- modelmapper -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>2.3.6</version>
+        </dependency>
+~~~

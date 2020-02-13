@@ -1,33 +1,42 @@
 package com.example.demo;
 
-import com.example.demo.book.BookService;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableAsync // Enable async
-@PropertySource("classpath:/app.properties")
+//@SpringBootConfiguration
+//@ComponentScan  // Spring boot register bean two step, first component for register bean
+//@EnableAutoConfiguration    //  Second, register bean from read ComponentScan
+//@EnableAsync // Enable async
+//@PropertySource("classpath:/app.properties")
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {//throws LifecycleException {
 
 //        SpringApplication app = new SpringApplication(Application.class);
 //        app.setWebApplicationType(WebApplicationType.NONE);
 //        app.run(args);
-        //SpringApplication.run(Application.class, args);
         SpringApplication.run(Application.class, args);
 
-
+//        Tomcat tomcat = new Tomcat();
+//        tomcat.setPort(9090);
+//
+//        Context context = tomcat.addContext("/", "/");
+//
+//        HttpServlet servlet = new HttpServlet() {
+//            @Override
+//            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//                PrintWriter printWriter = resp.getWriter();
+//
+//                printWriter.println("<html> <head> <body> hello </body> </head> </html>");
+//            }
+//        };
+//
+//        String servletName = "helloServlet";
+//        tomcat.addServlet("/", servletName, servlet);
+//        context.addServletMappingDecoded("/hello", servletName);
+//
+//        tomcat.start();
+        //tomcat.getServer().await();
     }
 }
