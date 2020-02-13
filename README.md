@@ -1,5 +1,5 @@
-# About Spring Framwork
-This repository is for exercise about spring framework, can see detail document to click.
+# Spring Essense Study
+This repository is for exercise about spring framework core concept, can see detail document to click.
 
 ## About Spring
 ### Spring IOC
@@ -23,8 +23,3 @@ This repository is for exercise about spring framework, can see detail document 
  
 ### Aspect-oriented programming
  - [Aspect Oriented Programming](https://github.com/chl8263/Spring-exe/blob/master/document/Spring/AOP/AOP.md)
- 
-***
-
-## Spring Boot
-
