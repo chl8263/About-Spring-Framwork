@@ -1,7 +1,6 @@
 # Spring Essense Study
 This repository is for exercise about spring framework core concept, can see detail document to click.
 
-## About Spring
 ### Spring IOC
  - [IOC](https://github.com/chl8263/Spring-exe/blob/master/document/Spring/IOC/IOC.md)
  - [Autowired](https://github.com/chl8263/Spring-exe/blob/master/document/Spring/IOC/IOC-AutoWired.md)
